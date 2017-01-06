@@ -1,0 +1,1 @@
+CREATE TABLE scan_data (id INTEGER PRIMARY KEY, ip varchar(255), os varchar (255), device_type varchar(255), mac varchar(255), scan_time datetime, vendor varchar(255), command varchar(255));
