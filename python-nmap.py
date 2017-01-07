@@ -5,7 +5,7 @@ import sys
 import sqlite3
 
 #Set IP address
-ip   = '192.168.1.72'
+ip   = '192.168.1.65'
 args = '-sS -O' 
 #Create database connection object
 db   = './data.db'
@@ -21,11 +21,27 @@ try:
 except Exception as e:
     print (traceback.format_exception(None, e, e.__traceback__),  file=sys.stderr, flush=True)
 
-os          = "fixThisSoItCanBeEmpty"
-device_type = 'test'
-mac         = scan['scan'][ip]['addresses']['mac']
+try:
+    os = scan['scan'][ip]['osmatch'][0]['name']
+except:
+    os = "No OS detected"
+
+try:
+    device_type = scan['scan'][ip]['osmatch'][0]['osclass'][0]['type']
+except:
+	device_type = "No device type detected"
+
+try:
+    mac = scan['scan'][ip]['addresses']['mac']
+except:
+    mac = "No MAC detected"
+
+try:
+    vendor = scan['scan'][ip]['osmatch'][0]['osclass'][0]['vendor']
+except:
+    vendor = "No vendor detected"
+
 scan_time   = scan['nmap']['scanstats']['timestr']
-vendor      = scan['scan'][ip]['vendor'][mac]
 command     = scan['nmap']['command_line']
 
 
