@@ -5,7 +5,7 @@ import sys
 import sqlite3
 
 #Set IP address
-ip   = '192.168.1.65'
+ip   = '127.0.0.1'
 args = '-sS -O' 
 #Create database connection object
 db   = './data.db'
