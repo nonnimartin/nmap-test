@@ -1,7 +1,7 @@
 import nmap
 import json
 import traceback
-import sys
+import sys, getopt
 import sqlite3
 
 #Set IP address
@@ -12,6 +12,17 @@ db   = './data.db'
 conn = sqlite3.connect(db)
 c = conn.cursor()
 
+#get CLI args
+cmd_args = sys.argv
+
+#Go through CLI options, where argument value = cmd_args[opt + 1]
+for opt in range(len(cmd_args)):
+    if cmd_args[opt] == '-i':
+        ip = cmd_args[opt + 1]
+    if cmd_args[opt] == '-j':
+        json_print = True
+    else:
+        json_print = False
 try:
     nm = nmap.PortScanner()
     scan = nm.scan(hosts=ip, arguments=args)
@@ -49,6 +60,9 @@ try:
         c.execute('INSERT INTO scan_data(ip, os, device_type, mac, scan_time, vendor, command) VALUES (?, ?, ?, ?, ?, ?, ?)', [ip, os, device_type, mac, scan_time, vendor, command])
 except sqlite3.IntegrityError:
         print('Error inserting new data')
+
+if json_print:
+    print (scan_json)
 
 # Committing changes/close
 conn.commit()
